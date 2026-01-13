@@ -8,7 +8,7 @@ import { GetPlaceDetails, PHOTO_REF_URL } from '@/service/GlobalApi'
 // Region-specific hero configurations
 const HERO_CONTENT = {
   uae: {
-    flagColors: ['bg-red-500', 'bg-green-600', 'bg-neutral-200 dark:bg-white border dark:border-none', 'bg-neutral-800 dark:bg-black'],
+    flagColors: [ 'bg-red-500', 'bg-green-600', 'bg-neutral-200 dark:bg-white border dark:border-none', 'bg-neutral-800 dark:bg-black' ],
     backgroundGradient1: 'from-emerald-100/10 dark:from-emerald-100/20 to-amber-100/10 dark:to-amber-100/20',
     backgroundGradient2: 'from-red-100/10 dark:from-red-100/15 to-yellow-100/10 dark:to-yellow-100/15',
     headingLine1: 'Discover Your Next',
@@ -28,7 +28,7 @@ const HERO_CONTENT = {
     heroImage: '/landing2.png',
   },
   kashmir: {
-    flagColors: ['bg-sky-500', 'bg-emerald-600', 'bg-white', 'bg-sky-700'],
+    flagColors: [ 'bg-sky-500', 'bg-emerald-600', 'bg-white', 'bg-sky-700' ],
     backgroundGradient1: 'from-sky-100/10 dark:from-sky-100/20 to-emerald-100/10 dark:to-emerald-100/20',
     backgroundGradient2: 'from-blue-100/10 dark:from-blue-100/15 to-teal-100/10 dark:to-teal-100/15',
     headingLine1: 'Discover Paradise',
@@ -48,7 +48,7 @@ const HERO_CONTENT = {
     heroImage: '/landing2.png',
   },
   europe: {
-    flagColors: ['bg-blue-600', 'bg-yellow-400', 'bg-blue-600', 'bg-yellow-400'],
+    flagColors: [ 'bg-blue-600', 'bg-yellow-400', 'bg-blue-600', 'bg-yellow-400' ],
     backgroundGradient1: 'from-blue-100/10 dark:from-blue-100/20 to-purple-100/10 dark:to-purple-100/20',
     backgroundGradient2: 'from-indigo-100/10 dark:from-indigo-100/15 to-pink-100/10 dark:to-pink-100/15',
     headingLine1: 'Explore the Heart of',
@@ -68,7 +68,7 @@ const HERO_CONTENT = {
     heroImage: '/landing2.png',
   },
   asia: {
-    flagColors: ['bg-orange-500', 'bg-pink-500', 'bg-orange-500', 'bg-pink-500'],
+    flagColors: [ 'bg-orange-500', 'bg-pink-500', 'bg-orange-500', 'bg-pink-500' ],
     backgroundGradient1: 'from-orange-100/10 dark:from-orange-100/20 to-pink-100/10 dark:to-pink-100/20',
     backgroundGradient2: 'from-red-100/10 dark:from-red-100/15 to-rose-100/10 dark:to-rose-100/15',
     headingLine1: 'Experience the Magic of',
@@ -88,7 +88,7 @@ const HERO_CONTENT = {
     heroImage: '/landing2.png',
   },
   usa: {
-    flagColors: ['bg-red-600', 'bg-white border', 'bg-blue-700', 'bg-white border'],
+    flagColors: [ 'bg-red-600', 'bg-white border', 'bg-blue-700', 'bg-white border' ],
     backgroundGradient1: 'from-red-100/10 dark:from-red-100/20 to-blue-100/10 dark:to-blue-100/20',
     backgroundGradient2: 'from-blue-100/10 dark:from-blue-100/15 to-red-100/10 dark:to-red-100/15',
     headingLine1: 'Discover the',
@@ -111,88 +111,88 @@ const HERO_CONTENT = {
 
 function Hero() {
   const { regionId } = useParams()
-  const regionConfig = getRegionConfig(regionId)
-  const heroContent = HERO_CONTENT[regionConfig.id] || HERO_CONTENT.uae
-  const createTripPath = regionId ? `/${regionId}/create-trip` : '/create-trip'
+  const regionConfig = getRegionConfig( regionId )
+  const heroContent = HERO_CONTENT[ regionConfig.id ] || HERO_CONTENT.uae
+  const createTripPath = regionId ? `/${ regionId }/create-trip` : '/create-trip'
 
-  const [photoUrl, setPhotoUrl] = useState(heroContent.heroImage)
+  const [ photoUrl, setPhotoUrl ] = useState( heroContent.heroImage )
 
-  useEffect(() => {
-    if (regionConfig) {
+  useEffect( () => {
+    if ( regionConfig ) {
       GetHeroPhoto()
     }
-  }, [regionId])
+  }, [ regionId ] )
 
   const GetHeroPhoto = async () => {
     // Pick a random popular city to get iconic landmarks
     const popularCities = regionConfig.popularCities || [];
     const randomCity = popularCities.length > 0
-      ? popularCities[Math.floor(Math.random() * popularCities.length)]
+      ? popularCities[ Math.floor( Math.random() * popularCities.length ) ]
       : regionConfig.name;
 
-    const query = `${randomCity} ${regionConfig.name} iconic landmark landscape tourism`;
+    const query = `${ randomCity } ${ regionConfig.name } iconic landmark landscape tourism`;
 
     const data = {
       textQuery: query
     }
 
     try {
-      const resp = await GetPlaceDetails(data);
-      const place = resp.data.places[0];
+      const resp = await GetPlaceDetails( data );
+      const place = resp.data.places[ 0 ];
 
-      if (place && place.photos && place.photos.length > 0) {
+      if ( place && place.photos && place.photos.length > 0 ) {
         // Try to pick a photo that likely has high res (usually later ones are more varied, or just take index 0/1/2)
         // We'll pick a random one from the first 5 to get varied results on reload
-        const photoIndex = Math.floor(Math.random() * Math.min(place.photos.length, 6));
-        const PhotoUrl = PHOTO_REF_URL.replace('{NAME}', place.photos[photoIndex].name);
-        setPhotoUrl(PhotoUrl);
+        const photoIndex = Math.floor( Math.random() * Math.min( place.photos.length, 6 ) );
+        const PhotoUrl = PHOTO_REF_URL.replace( '{NAME}', place.photos[ photoIndex ].name );
+        setPhotoUrl( PhotoUrl );
       } else {
-        setPhotoUrl(heroContent.heroImage);
+        setPhotoUrl( heroContent.heroImage );
       }
-    } catch (err) {
-      console.error("Error fetching hero photo:", err);
-      setPhotoUrl(heroContent.heroImage);
+    } catch ( err ) {
+      console.error( "Error fetching hero photo:", err );
+      setPhotoUrl( heroContent.heroImage );
     }
   }
 
   return (
     <div className='relative flex flex-col items-center px-4 md:px-8 lg:px-20 gap-8 md:gap-12 pt-12 md:pt-20 pb-8 md:pb-16 bg-white dark:bg-black transition-colors duration-500'>
-      {/* Background elements */}
+      {/* Background elements */ }
       <div className="absolute inset-0 overflow-hidden -z-10">
-        <div className={`absolute top-10 left-10 w-72 h-72 bg-gradient-to-br ${heroContent.backgroundGradient1} rounded-full blur-3xl opacity-50 dark:opacity-100`}></div>
-        <div className={`absolute bottom-10 right-10 w-96 h-96 bg-gradient-to-tr ${heroContent.backgroundGradient2} rounded-full blur-3xl opacity-50 dark:opacity-100`}></div>
+        <div className={ `absolute top-10 left-10 w-72 h-72 bg-gradient-to-br ${ heroContent.backgroundGradient1 } rounded-full blur-3xl opacity-50 dark:opacity-100` }></div>
+        <div className={ `absolute bottom-10 right-10 w-96 h-96 bg-gradient-to-tr ${ heroContent.backgroundGradient2 } rounded-full blur-3xl opacity-50 dark:opacity-100` }></div>
       </div>
 
-      {/* Flag Color Accent */}
+      {/* Flag Color Accent */ }
       <div className="flex gap-2 mb-2">
-        {heroContent.flagColors.map((color, index) => (
-          <div key={index} className={`w-8 h-2 ${color} rounded-full`}></div>
-        ))}
+        { heroContent.flagColors.map( ( color, index ) => (
+          <div key={ index } className={ `w-8 h-2 ${ color } rounded-full` }></div>
+        ) ) }
       </div>
 
-      {/* Main Heading */}
+      {/* Main Heading */ }
       <h1 className="font-bold text-3xl md:text-5xl lg:text-6xl text-center leading-tight transition-colors duration-300">
-        <span className="block text-neutral-900 dark:text-white">{heroContent.headingLine1}</span>
-        <span className={`bg-gradient-to-r ${heroContent.headingGradient} bg-clip-text text-transparent`}>
-          {heroContent.headingLine2}
+        <span className="block text-neutral-900 dark:text-white">{ heroContent.headingLine1 }</span>
+        <span className={ `bg-gradient-to-r ${ heroContent.headingGradient } bg-clip-text text-transparent` }>
+          { heroContent.headingLine2 }
         </span>
-        <span className="block text-neutral-900 dark:text-white mt-2">{heroContent.headingLine3}</span>
+        <span className="block text-neutral-900 dark:text-white mt-2">{ heroContent.headingLine3 }</span>
       </h1>
 
-      {/* Subtitle */}
+      {/* Subtitle */ }
       <p className="text-lg md:text-xl text-neutral-600 dark:text-gray-100 text-center max-w-3xl leading-relaxed transition-colors duration-300">
-        {heroContent.subtitle}{' '}
-        <span className="text-amber-600 font-semibold italic">{heroContent.localWord}</span>{' '}
-        ({heroContent.localWordMeaning}) experiences tailored to your{' '}
+        { heroContent.subtitle }{ ' ' }
+        <span className="text-amber-600 font-semibold italic">{ heroContent.localWord }</span>{ ' ' }
+        ({ heroContent.localWordMeaning }) experiences tailored to your{ ' ' }
         <span className="text-emerald-600 font-semibold">interests</span> and
         <span className="text-amber-600 font-semibold"> budget</span>.
       </p>
 
-      {/* Highlights */}
+      {/* Highlights */ }
       <div className="flex flex-wrap justify-center gap-4 md:gap-8 mt-4">
         <div className="flex items-center gap-2 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 px-4 py-2 rounded-full shadow-sm dark:shadow-lg transition-all">
           <MapPin className="w-4 h-4 text-emerald-500" />
-          <span className="text-sm md:text-base font-medium text-neutral-700 dark:text-neutral-200">{heroContent.coverageBadge}</span>
+          <span className="text-sm md:text-base font-medium text-neutral-700 dark:text-neutral-200">{ heroContent.coverageBadge }</span>
         </div>
         <div className="flex items-center gap-2 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 px-4 py-2 rounded-full shadow-sm dark:shadow-lg transition-all">
           <Sparkles className="w-4 h-4 text-amber-500" />
@@ -204,42 +204,42 @@ function Hero() {
         </div>
       </div>
 
-      {/* Call to Action */}
-      <Link to={createTripPath} className="mt-4">
-        <Button className={`group relative overflow-hidden bg-gradient-to-r ${heroContent.buttonGradient} text-white font-semibold px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1`}>
+      {/* Call to Action */ }
+      <Link to={ createTripPath } className="mt-4">
+        <Button className={ `group relative overflow-hidden bg-gradient-to-r ${ heroContent.buttonGradient } text-white font-semibold px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1` }>
           <Sparkles className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
           Begin Your Journey - It's Free
           <span className="absolute inset-0 bg-white/20 translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
         </Button>
       </Link>
 
-      {/* Welcome Text */}
+      {/* Welcome Text */ }
       <div className="mt-4 text-center">
         <p className="text-gray-500 dark:text-gray-400 text-sm md:text-base">
-          {heroContent.welcomeLocal}
+          { heroContent.welcomeLocal }
         </p>
         <p className="text-gray-400 dark:text-gray-500 text-xs md:text-sm">
-          {heroContent.welcomeEnglish}
+          { heroContent.welcomeEnglish }
         </p>
       </div>
 
-      {/* Hero Image */}
+      {/* Hero Image */ }
       <div className="relative mt-8 md:mt-12 max-w-5xl w-full">
-        <div className={`absolute -inset-1 bg-gradient-to-r ${heroContent.borderGradient} rounded-2xl blur opacity-20 dark:opacity-30 group-hover:opacity-50 transition duration-1000`}></div>
+        <div className={ `absolute -inset-1 bg-gradient-to-r ${ heroContent.borderGradient } rounded-2xl blur opacity-20 dark:opacity-30 group-hover:opacity-50 transition duration-1000` }></div>
         <div className="relative rounded-xl shadow-2xl overflow-hidden border-4 border-white dark:border-neutral-900">
           <img
-            src={photoUrl}
-            alt={`${regionConfig.name} Adventure`}
+            src={ photoUrl }
+            alt={ `${ regionConfig.name } Adventure` }
             className="w-full h-[300px] md:h-[400px] lg:h-[500px] object-cover"
-            onError={(e) => {
+            onError={ ( e ) => {
               e.target.src = '/landing2.png';
-            }}
+            } }
           />
-          {/* Gradient overlay for better text visibility */}
+          {/* Gradient overlay for better text visibility */ }
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
         </div>
-        <div className={`absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r ${heroContent.badgeGradient} text-white px-6 py-2 rounded-full shadow-lg`}>
-          <span className="font-semibold">{heroContent.imageBadge}</span>
+        <div className={ `absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r ${ heroContent.badgeGradient } text-white px-6 py-2 rounded-full shadow-lg` }>
+          <span className="font-semibold">{ heroContent.imageBadge }</span>
         </div>
       </div>
     </div>

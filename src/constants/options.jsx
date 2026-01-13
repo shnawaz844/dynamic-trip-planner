@@ -53,24 +53,24 @@ export const SelectBudgetOptions = [
 
 
 // Dynamic AI Prompt Builder
-export const buildAIPrompt = ({ location, noOfDays, traveler, budget, regionConfig = null }) => {
+export const buildAIPrompt = ( { location, noOfDays, traveler, budget, regionConfig = null } ) => {
   // Get currency from region config or default to AED
   const currency = regionConfig?.currency || 'AED';
   const regionName = regionConfig?.name || 'UAE';
 
   // Build location string based on region
   let locationStr;
-  if (location?.english) {
-    if (regionConfig?.id === 'uae' && location?.arabic) {
-      locationStr = `${location.english} (${location.arabic}), UAE`;
-    } else if (location?.country) {
-      locationStr = `${location.english}, ${location.country}`;
-    } else if (location?.state) {
-      locationStr = `${location.english}, ${location.state}, USA`;
-    } else if (location?.local) {
-      locationStr = `${location.english}, ${regionName}`;
+  if ( location?.english ) {
+    if ( regionConfig?.id === 'uae' && location?.arabic ) {
+      locationStr = `${ location.english } (${ location.arabic }), UAE`;
+    } else if ( location?.country ) {
+      locationStr = `${ location.english }, ${ location.country }`;
+    } else if ( location?.state ) {
+      locationStr = `${ location.english }, ${ location.state }, USA`;
+    } else if ( location?.local ) {
+      locationStr = `${ location.english }, ${ regionName }`;
     } else {
-      locationStr = `${location.english}, ${regionName}`;
+      locationStr = `${ location.english }, ${ regionName }`;
     }
   } else {
     locationStr = regionName;
@@ -86,32 +86,32 @@ export const buildAIPrompt = ({ location, noOfDays, traveler, budget, regionConf
   const daysStr = noOfDays || '3';
 
   // Create minimal, structured prompt
-  return `Generate a comprehensive ${daysStr}-day travel plan for ${locationStr}.
+  return `Generate a comprehensive ${ daysStr }-day travel plan for ${ locationStr }.
 
 **Trip Details:**
-- Duration: ${daysStr} days
-- Travelers: ${travelerStr}
-- Budget: ${budgetStr} (in ${currency})
-- Region: ${regionName}
+- Duration: ${ daysStr } days
+- Travelers: ${ travelerStr }
+- Budget: ${ budgetStr } (in ${ currency })
+- Region: ${ regionName }
 
 **Required Output (JSON format):**
 {
   "tripDetails": {
-    "destination": "${locationStr}",
-    "destinationEnglish": "${location?.english || locationStr}",
-    "destinationLocal": "${location?.local || location?.arabic || ''}",
-    "region": "${regionConfig?.id || 'uae'}",
-    "regionName": "${regionName}",
-    "duration": "${daysStr}",
-    "travelers": "${travelerStr}",
-    "budget": "${budgetStr}",
-    "currency": "${currency}"
+    "destination": "${ locationStr }",
+    "destinationEnglish": "${ location?.english || locationStr }",
+    "destinationLocal": "${ location?.local || location?.arabic || '' }",
+    "region": "${ regionConfig?.id || 'uae' }",
+    "regionName": "${ regionName }",
+    "duration": "${ daysStr }",
+    "travelers": "${ travelerStr }",
+    "budget": "${ budgetStr }",
+    "currency": "${ currency }"
   },
   "hotels": [
     {
       "hotelName": "string",
       "hotelAddress": "string",
-      "price": "string (with ${currency} currency)",
+      "price": "string (with ${ currency } currency)",
       "hotelImageUrl": "string",
       "geoCoordinates": "string (lat, long)",
       "rating": "number or string",
@@ -129,7 +129,7 @@ export const buildAIPrompt = ({ location, noOfDays, traveler, budget, regionConf
           "placeImageUrl": "string",
           "geoCoordinates": "string (lat, long)",
           "placeAddress": "string",
-          "ticketPricing": "string (in ${currency})",
+          "ticketPricing": "string (in ${ currency })",
           "rating": "number or string",
           "timeToTravel": "string"
         }
@@ -144,9 +144,9 @@ IMPORTANT FORMATTING RULES:
 3. Do NOT use trailing commas
 4. Escape special characters properly (quotes, newlines, etc.)
 5. Ensure all brackets and braces are properly closed
-6. All prices should be in ${currency} currency
+6. All prices should be in ${ currency } currency
 
-IMPORTANT: Start your JSON with the "tripDetails" object containing the exact values shown above. Then provide ${daysStr === '1' ? '1 full day' : `${daysStr} complete days`} of detailed itinerary with best times to visit, considering the ${budgetStr} budget and ${travelerStr} group size.`;
+IMPORTANT: Start your JSON with the "tripDetails" object containing the exact values shown above. Then provide ${ daysStr === '1' ? '1 full day' : `${ daysStr } complete days` } of detailed itinerary with best times to visit, considering the ${ budgetStr } budget and ${ travelerStr } group size.`;
 };
 
 // Legacy support - simple template (deprecated, use buildAIPrompt instead)
