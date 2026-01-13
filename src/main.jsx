@@ -46,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: '/my-trips',
     element: <Layout><MyTrips /></Layout>
+  },
+  {
+    path: '/:regionId/my-trips',
+    element: <Layout><MyTrips /></Layout>
   }
 ])
 
