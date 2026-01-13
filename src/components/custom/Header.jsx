@@ -24,43 +24,43 @@ import { getAllRegions, REGION_CONFIGS } from '@/constants/regionConfigs';
 
 function Header() {
   const location = useLocation();
-  const isOnCreateTripPage = location.pathname.includes('create-trip');
+  const isOnCreateTripPage = location.pathname.includes( 'create-trip' );
 
   // Extract region from URL path (e.g., /kashmir -> kashmir, /europe -> europe)
-  const pathSegments = location.pathname.split('/').filter(Boolean);
-  const potentialRegion = pathSegments[0];
-  const currentRegionId = REGION_CONFIGS[potentialRegion] ? potentialRegion : null;
+  const pathSegments = location.pathname.split( '/' ).filter( Boolean );
+  const potentialRegion = pathSegments[ 0 ];
+  const currentRegionId = REGION_CONFIGS[ potentialRegion ] ? potentialRegion : null;
 
   // Build create-trip link based on current region
-  const createTripPath = currentRegionId ? `/${currentRegionId}/create-trip` : '/create-trip';
+  const createTripPath = currentRegionId ? `/${ currentRegionId }/create-trip` : '/create-trip';
 
-  const user = JSON.parse(localStorage.getItem('user') || "null");
-  const [openDailog, setOpenDailog] = useState(false);
-  const [showRegions, setShowRegions] = useState(false);
+  const user = JSON.parse( localStorage.getItem( 'user' ) || "null" );
+  const [ openDailog, setOpenDailog ] = useState( false );
+  const [ showRegions, setShowRegions ] = useState( false );
 
   const regions = getAllRegions();
 
-  const login = useGoogleLogin({
-    onSuccess: (codeResp) => GetUserProfile(codeResp),
-    onError: (error) => { }
-  })
+  const login = useGoogleLogin( {
+    onSuccess: ( codeResp ) => GetUserProfile( codeResp ),
+    onError: ( error ) => { }
+  } )
 
-  const GetUserProfile = async (tokenInfo) => {
+  const GetUserProfile = async ( tokenInfo ) => {
     try {
       const resp = await axios.get(
-        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,
+        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${ tokenInfo?.access_token }`,
         {
           headers: {
-            Authorization: `Bearer ${tokenInfo?.access_token}`,
+            Authorization: `Bearer ${ tokenInfo?.access_token }`,
             Accept: 'application/json',
           },
         }
       );
 
-      localStorage.setItem('user', JSON.stringify(resp.data));
-      setOpenDailog(false);
+      localStorage.setItem( 'user', JSON.stringify( resp.data ) );
+      setOpenDailog( false );
       window.location.reload();
-    } catch (err) {
+    } catch ( err ) {
 
     }
   };
@@ -84,36 +84,36 @@ function Header() {
         </div>
       </a>
       <div>
-        {user ?
+        { user ?
           <div className='flex items-center gap-3'>
-            {/* Region Selector Dropdown */}
-            <Popover open={showRegions} onOpenChange={setShowRegions}>
+            {/* Region Selector Dropdown */ }
+            <Popover open={ showRegions } onOpenChange={ setShowRegions }>
               <PopoverContent className="w-64 p-2 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
                 <div className="grid gap-1">
                   <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400 px-2 py-1">Choose your destination</p>
-                  {regions.map((region) => (
+                  { regions.map( ( region ) => (
                     <a
-                      key={region.id}
-                      href={`/create-trip/${region.id}`}
+                      key={ region.id }
+                      href={ `/create-trip/${ region.id }` }
                       className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
-                      onClick={() => setShowRegions(false)}
+                      onClick={ () => setShowRegions( false ) }
                     >
-                      <span className="text-xl">{region.emoji}</span>
+                      <span className="text-xl">{ region.emoji }</span>
                       <div>
-                        <p className="font-medium text-neutral-900 dark:text-white text-sm">{region.name}</p>
+                        <p className="font-medium text-neutral-900 dark:text-white text-sm">{ region.name }</p>
                       </div>
                     </a>
-                  ))}
+                  ) ) }
                 </div>
               </PopoverContent>
             </Popover>
 
-            {!isOnCreateTripPage && (
-              <a href={createTripPath}>
+            { !isOnCreateTripPage && (
+              <a href={ createTripPath }>
                 <Button variant="outline"
                   className="rounded-full border-neutral-300 dark:border-neutral-700 bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-900 dark:text-neutral-100 transition-colors">+ Create Trip</Button>
               </a>
-            )}
+            ) }
             <a href='/my-trips'>
               <Button variant="outline"
                 className="rounded-full border-neutral-300 dark:border-neutral-700 bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-900 dark:text-neutral-100 transition-colors">My Trips</Button>
@@ -121,21 +121,21 @@ function Header() {
             <ThemeToggle />
             <Popover>
               <PopoverTrigger>
-                <img src={user?.picture} className='h-[35px] w-[35px] rounded-full ring-2 ring-neutral-200 dark:ring-neutral-800' />
+                <img src={ user?.picture } className='h-[35px] w-[35px] rounded-full ring-2 ring-neutral-200 dark:ring-neutral-800' />
               </PopoverTrigger>
               <PopoverContent className="bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
-                <h2 className='cursor-pointer text-neutral-900 dark:text-neutral-100' onClick={() => {
+                <h2 className='cursor-pointer text-neutral-900 dark:text-neutral-100' onClick={ () => {
                   googleLogout();
                   localStorage.clear();
                   window.location.reload();
-                }}>Logout</h2>
+                } }>Logout</h2>
               </PopoverContent>
             </Popover>
           </div>
           :
           <div className='flex items-center gap-4'>
-            {/* Region Selector Dropdown for non-logged in users */}
-            <Popover open={showRegions} onOpenChange={setShowRegions}>
+            {/* Region Selector Dropdown for non-logged in users */ }
+            <Popover open={ showRegions } onOpenChange={ setShowRegions }>
               <PopoverTrigger asChild>
                 <Button variant="outline"
                   className="rounded-full border-neutral-300 dark:border-neutral-700 bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-900 dark:text-neutral-100 transition-colors gap-2">
@@ -147,28 +147,28 @@ function Header() {
               <PopoverContent className="w-64 p-2 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
                 <div className="grid gap-1">
                   <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400 px-2 py-1">Choose your destination</p>
-                  {regions.map((region) => (
+                  { regions.map( ( region ) => (
                     <a
-                      key={region.id}
-                      href={`/create-trip/${region.id}`}
+                      key={ region.id }
+                      href={ `/create-trip/${ region.id }` }
                       className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
-                      onClick={() => setShowRegions(false)}
+                      onClick={ () => setShowRegions( false ) }
                     >
-                      <span className="text-xl">{region.emoji}</span>
+                      <span className="text-xl">{ region.emoji }</span>
                       <div>
-                        <p className="font-medium text-neutral-900 dark:text-white text-sm">{region.name}</p>
+                        <p className="font-medium text-neutral-900 dark:text-white text-sm">{ region.name }</p>
                       </div>
                     </a>
-                  ))}
+                  ) ) }
                 </div>
               </PopoverContent>
             </Popover>
             <ThemeToggle />
-            <Button className="bg-gradient-to-r from-emerald-600 to-amber-500 hover:from-emerald-700 hover:to-amber-600 text-white border-none rounded-full px-6" onClick={() => setOpenDailog(true)}>Sign In</Button>
+            <Button className="bg-gradient-to-r from-emerald-600 to-amber-500 hover:from-emerald-700 hover:to-amber-600 text-white border-none rounded-full px-6" onClick={ () => setOpenDailog( true ) }>Sign In</Button>
           </div>
         }
       </div>
-      <Dialog open={openDailog}>
+      <Dialog open={ openDailog }>
 
         <DialogContent>
           <DialogHeader>
@@ -184,7 +184,7 @@ function Header() {
 
               <Button
 
-                onClick={login}
+                onClick={ login }
                 className="w-full mt-5 flex gap-4 items-center">
 
                 <FcGoogle className='h-7 w-7' />

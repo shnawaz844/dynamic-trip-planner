@@ -147,7 +147,7 @@ export const REGION_CONFIGS = {
         travelerQuestion: 'Who do you plan on traveling with on your UAE adventure?',
         budgetLabel: 'What is Your Budget? (AED)',
         cities: UAE_CITIES,
-        popularCities: ['Abu Dhabi', 'Dubai', 'Sharjah', 'Fujairah'],
+        popularCities: [ 'Abu Dhabi', 'Dubai', 'Sharjah', 'Fujairah' ],
         videos: [
             '/video/camel.mp4',
             '/video/building123.mp4',
@@ -155,7 +155,7 @@ export const REGION_CONFIGS = {
             '/video/video1.mp4',
             '/video/video2.mp4'
         ],
-        locationFormat: (city) => `${city.english} (${city.arabic}), UAE`,
+        locationFormat: ( city ) => `${ city.english } (${ city.arabic }), UAE`,
         cityBadge: 'UAE',
         showLocalName: true,
         localNameLabel: 'arabic',
@@ -180,7 +180,7 @@ export const REGION_CONFIGS = {
         travelerQuestion: 'Who will join you on this Himalayan adventure?',
         budgetLabel: 'What is Your Budget? (INR)',
         cities: KASHMIR_CITIES,
-        popularCities: ['Srinagar', 'Gulmarg', 'Leh', 'Pahalgam'],
+        popularCities: [ 'Srinagar', 'Gulmarg', 'Leh', 'Pahalgam' ],
         videos: [
             '/video/kashmir.mp4',
             '/video/kashmir1.mp4',
@@ -194,7 +194,7 @@ export const REGION_CONFIGS = {
             '/video/kashmir3.mp4',
         ],
 
-        locationFormat: (city) => `${city.english}, Kashmir, India`,
+        locationFormat: ( city ) => `${ city.english }, Kashmir, India`,
         cityBadge: 'Kashmir',
         showLocalName: true,
         localNameLabel: 'local',
@@ -219,7 +219,7 @@ export const REGION_CONFIGS = {
         travelerQuestion: 'Who will be your travel companions in Europe?',
         budgetLabel: 'What is Your Budget? (EUR)',
         cities: EUROPE_CITIES,
-        popularCities: ['Paris', 'Rome', 'Barcelona', 'Amsterdam'],
+        popularCities: [ 'Paris', 'Rome', 'Barcelona', 'Amsterdam' ],
         videos: [
             '/video/video1.mp4',
             '/video/video2.mp4',
@@ -228,7 +228,7 @@ export const REGION_CONFIGS = {
             '/video/video1.mp4',
             '/video/video2.mp4'
         ],
-        locationFormat: (city) => `${city.english}, ${city.country}`,
+        locationFormat: ( city ) => `${ city.english }, ${ city.country }`,
         cityBadge: 'country',
         showLocalName: true,
         localNameLabel: 'local',
@@ -253,7 +253,7 @@ export const REGION_CONFIGS = {
         travelerQuestion: 'Who will share this Asian adventure with you?',
         budgetLabel: 'What is Your Budget? (USD)',
         cities: ASIA_CITIES,
-        popularCities: ['Bangkok', 'Bali', 'Singapore', 'Tokyo'],
+        popularCities: [ 'Bangkok', 'Bali', 'Singapore', 'Tokyo' ],
         videos: [
             '/video/video1.mp4',
             '/video/video2.mp4',
@@ -262,7 +262,7 @@ export const REGION_CONFIGS = {
             '/video/video1.mp4',
             '/video/video2.mp4'
         ],
-        locationFormat: (city) => `${city.english}, ${city.country}`,
+        locationFormat: ( city ) => `${ city.english }, ${ city.country }`,
         cityBadge: 'country',
         showLocalName: true,
         localNameLabel: 'local',
@@ -287,7 +287,7 @@ export const REGION_CONFIGS = {
         travelerQuestion: 'Who will join your American adventure?',
         budgetLabel: 'What is Your Budget? (USD)',
         cities: USA_CITIES,
-        popularCities: ['New York City', 'Los Angeles', 'Las Vegas', 'Miami'],
+        popularCities: [ 'New York City', 'Los Angeles', 'Las Vegas', 'Miami' ],
         videos: [
             '/video/video1.mp4',
             '/video/video2.mp4',
@@ -296,7 +296,7 @@ export const REGION_CONFIGS = {
             '/video/video1.mp4',
             '/video/video2.mp4'
         ],
-        locationFormat: (city) => `${city.english}, ${city.state}, USA`,
+        locationFormat: ( city ) => `${ city.english }, ${ city.state }, USA`,
         cityBadge: 'state',
         showLocalName: false,
         localNameLabel: 'state',
@@ -312,8 +312,8 @@ export const REGION_CONFIGS = {
  * @param {string} regionId - The region ID (e.g., 'uae', 'kashmir')
  * @returns {object} Region configuration object
  */
-export const getRegionConfig = (regionId) => {
-    return REGION_CONFIGS[regionId?.toLowerCase()] || REGION_CONFIGS.uae;
+export const getRegionConfig = ( regionId ) => {
+    return REGION_CONFIGS[ regionId?.toLowerCase() ] || REGION_CONFIGS.uae;
 };
 
 /**
@@ -321,12 +321,12 @@ export const getRegionConfig = (regionId) => {
  * @returns {array} Array of region objects with id, name, emoji
  */
 export const getAllRegions = () => {
-    return Object.values(REGION_CONFIGS).map(region => ({
+    return Object.values( REGION_CONFIGS ).map( region => ( {
         id: region.id,
         name: region.name,
         shortName: region.shortName,
         emoji: region.emoji,
-    }));
+    } ) );
 };
 
 /**
@@ -334,15 +334,15 @@ export const getAllRegions = () => {
  * @param {string} regionId - The region ID
  * @returns {string} Video path
  */
-export const getRegionVideo = (regionId) => {
-    const config = getRegionConfig(regionId);
+export const getRegionVideo = ( regionId ) => {
+    const config = getRegionConfig( regionId );
     const videos = config.videos || [];
-    const fallbackVideos = config.fallbackVideos || ['/video/video1.mp4'];
+    const fallbackVideos = config.fallbackVideos || [ '/video/video1.mp4' ];
 
     // Try to get a region-specific video first
-    const allVideos = [...videos, ...fallbackVideos];
-    const randomIndex = Math.floor(Math.random() * allVideos.length);
-    return allVideos[randomIndex];
+    const allVideos = [ ...videos, ...fallbackVideos ];
+    const randomIndex = Math.floor( Math.random() * allVideos.length );
+    return allVideos[ randomIndex ];
 };
 
 /**
@@ -351,11 +351,11 @@ export const getRegionVideo = (regionId) => {
  * @param {object} regionConfig - Region config
  * @returns {string} Formatted city string
  */
-export const formatCityDisplay = (city, regionConfig) => {
-    if (!city) return '';
+export const formatCityDisplay = ( city, regionConfig ) => {
+    if ( !city ) return '';
 
-    if (regionConfig.showLocalName && city[regionConfig.localNameLabel]) {
-        return `${city.english} - ${city[regionConfig.localNameLabel]}`;
+    if ( regionConfig.showLocalName && city[ regionConfig.localNameLabel ] ) {
+        return `${ city.english } - ${ city[ regionConfig.localNameLabel ] }`;
     }
     return city.english;
 };
