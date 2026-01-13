@@ -136,14 +136,6 @@ function Header() {
           <div className='flex items-center gap-4'>
             {/* Region Selector Dropdown for non-logged in users */ }
             <Popover open={ showRegions } onOpenChange={ setShowRegions }>
-              <PopoverTrigger asChild>
-                <Button variant="outline"
-                  className="rounded-full border-neutral-300 dark:border-neutral-700 bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-900 dark:text-neutral-100 transition-colors gap-2">
-                  <MapPin className="h-4 w-4" />
-                  Destinations
-                  <ChevronDown className="h-4 w-4" />
-                </Button>
-              </PopoverTrigger>
               <PopoverContent className="w-64 p-2 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
                 <div className="grid gap-1">
                   <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400 px-2 py-1">Choose your destination</p>
