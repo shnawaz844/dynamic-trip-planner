@@ -175,12 +175,12 @@ export default function Itinerary({ trip, showMap, setShowMap, selectedLocation 
                         {dayPlan.plan ? (
                             // New format with 'plan' array
                             dayPlan.plan.map((activity, actIdx) => (
-                                <ItineraryItem key={actIdx} activity={activity} />
+                                <ItineraryItem key={actIdx} activity={activity} trip={trip} />
                             ))
                         ) : dayPlan.activities ? (
                             // Old format with 'activities' array
                             dayPlan.activities.map((activity, actIdx) => (
-                                <ItineraryItem key={actIdx} activity={activity} />
+                                <ItineraryItem key={actIdx} activity={activity} trip={trip} />
                             ))
                         ) : (
                             <p className="text-sm text-neutral-700 dark:text-neutral-300">
