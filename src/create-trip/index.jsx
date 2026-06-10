@@ -5,7 +5,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import { db } from '@/service/firebaseConfig';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { chatSession } from '@/service/AIModal';
+import { chatSession, getFriendlyErrorMessage } from '@/service/AIModal';
 import { buildAIPrompt } from '@/constants/options';
 import { MultiStepLoader as Loader } from "@/components/ui/multi-step-loader";
 import AIPlanner from './_components/AIPlanner';
@@ -280,7 +280,8 @@ function CreateTrip() {
     } catch (error) {
       console.error("Error generating trip:", error);
       console.error("Error details:", error.message, error.stack);
-      toast.error(`Failed to generate trip plan: ${error.message}`);
+      const friendlyMessage = getFriendlyErrorMessage(error);
+      toast.error(`Failed to generate trip plan: ${friendlyMessage}`);
     } finally {
       setLoading(false);
       setMultiStepLoading(false); // CRITICAL: Always stop multistep loading
