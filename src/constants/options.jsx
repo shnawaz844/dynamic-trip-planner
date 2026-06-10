@@ -53,24 +53,24 @@ export const SelectBudgetOptions = [
 
 
 // Dynamic AI Prompt Builder
-export const buildAIPrompt = ( { location, noOfDays, traveler, budget, regionConfig = null } ) => {
+export const buildAIPrompt = ({ location, noOfDays, traveler, budget, regionConfig = null }) => {
   // Get currency from region config or default to AED
   const currency = regionConfig?.currency || 'AED';
   const regionName = regionConfig?.name || 'UAE';
 
   // Build location string based on region
   let locationStr;
-  if ( location?.english ) {
-    if ( regionConfig?.id === 'uae' && location?.arabic ) {
-      locationStr = `${ location.english } (${ location.arabic }), UAE`;
-    } else if ( location?.country ) {
-      locationStr = `${ location.english }, ${ location.country }`;
-    } else if ( location?.state ) {
-      locationStr = `${ location.english }, ${ location.state }, USA`;
-    } else if ( location?.local ) {
-      locationStr = `${ location.english }, ${ regionName }`;
+  if (location?.english) {
+    if (regionConfig?.id === 'uae' && location?.arabic) {
+      locationStr = `${location.english} (${location.arabic}), UAE`;
+    } else if (location?.country) {
+      locationStr = `${location.english}, ${location.country}`;
+    } else if (location?.state) {
+      locationStr = `${location.english}, ${location.state}, USA`;
+    } else if (location?.local) {
+      locationStr = `${location.english}, ${regionName}`;
     } else {
-      locationStr = `${ location.english }, ${ regionName }`;
+      locationStr = `${location.english}, ${regionName}`;
     }
   } else {
     locationStr = regionName;
@@ -86,32 +86,32 @@ export const buildAIPrompt = ( { location, noOfDays, traveler, budget, regionCon
   const daysStr = noOfDays || '3';
 
   // Create minimal, structured prompt
-  return `Generate a comprehensive ${ daysStr }-day travel plan for ${ locationStr }.
+  return `Generate a comprehensive ${daysStr}-day travel plan for ${locationStr}.
 
 **Trip Details:**
-- Duration: ${ daysStr } days
-- Travelers: ${ travelerStr }
-- Budget: ${ budgetStr } (in ${ currency })
-- Region: ${ regionName }
+- Duration: ${daysStr} days
+- Travelers: ${travelerStr}
+- Budget: ${budgetStr} (in ${currency})
+- Region: ${regionName}
 
 **Required Output (JSON format):**
 {
   "tripDetails": {
-    "destination": "${ locationStr }",
-    "destinationEnglish": "${ location?.english || locationStr }",
-    "destinationLocal": "${ location?.local || location?.arabic || '' }",
-    "region": "${ regionConfig?.id || 'uae' }",
-    "regionName": "${ regionName }",
-    "duration": "${ daysStr }",
-    "travelers": "${ travelerStr }",
-    "budget": "${ budgetStr }",
-    "currency": "${ currency }"
+    "destination": "${locationStr}",
+    "destinationEnglish": "${location?.english || locationStr}",
+    "destinationLocal": "${location?.local || location?.arabic || ''}",
+    "region": "${regionConfig?.id || 'uae'}",
+    "regionName": "${regionName}",
+    "duration": "${daysStr}",
+    "travelers": "${travelerStr}",
+    "budget": "${budgetStr}",
+    "currency": "${currency}"
   },
   "hotels": [
     {
       "hotelName": "string",
       "hotelAddress": "string",
-      "price": "string (with ${ currency } currency)",
+      "price": "string (with ${currency} currency)",
       "hotelImageUrl": "string",
       "geoCoordinates": "string (lat, long)",
       "rating": "number or string",
@@ -129,7 +129,7 @@ export const buildAIPrompt = ( { location, noOfDays, traveler, budget, regionCon
           "placeImageUrl": "string",
           "geoCoordinates": "string (lat, long)",
           "placeAddress": "string",
-          "ticketPricing": "string (in ${ currency })",
+          "ticketPricing": "string (in ${currency})",
           "rating": "number or string",
           "timeToTravel": "string"
         }
@@ -144,7 +144,7 @@ IMPORTANT FORMATTING RULES:
 3. Do NOT use trailing commas
 4. Escape special characters properly (quotes, newlines, etc.)
 5. Ensure all brackets and braces are properly closed
-6. All prices should be in ${ currency } currency
+6. All prices should be in ${currency} currency
 
 IMPORTANT TRIP PACING & REST RULES:
 - Since travel can be exhausting, you MUST explicitly suggest rest and downtime in the itinerary.
@@ -153,8 +153,8 @@ IMPORTANT TRIP PACING & REST RULES:
 - Balance activities with downtime: Do not pack the schedule with back-to-back intense sightseeing. Ensure each day includes appropriate rest/relaxation breaks (e.g., afternoon breaks during peak heat, relaxed dinners, or leisure time).
 - For rest/downtime activities, set 'placeName' to something descriptive containing the word 'Rest' or 'Relax' (e.g., 'Rest & Recharge at Hotel', 'Relax at Al Khan Beach', 'Unwind at Hotel Lounge') and describe in 'placeDetails' how the traveler can unwind and recharge.
 
-IMPORTANT: Start your JSON with the "tripDetails" object containing the exact values shown above. Then provide ${ daysStr === '1' ? '1 full day' : `${ daysStr } complete days` } of detailed itinerary with best times to visit, considering the ${ budgetStr } budget and ${ travelerStr } group size, strictly incorporating the mandatory daily rest and pacing rules defined above.`;
+IMPORTANT: Start your JSON with the "tripDetails" object containing the exact values shown above. Then provide ${daysStr === '1' ? '1 full day' : `${daysStr} complete days`} of detailed itinerary with best times to visit, considering the ${budgetStr} budget and ${travelerStr} group size, strictly incorporating the mandatory daily rest and pacing rules defined above.`;
 };
 
-// Legacy support - simple template (deprecated, use buildAIPrompt instead)
+// *****Legacy support - simple template (deprecated, use buildAIPrompt instead)
 export const AI_PROMPT = 'Generate Travel Plan for Location: {location}, for {totalDays} Days for {traveler} with a {budget} budget, give me Hotels options list with HotelName, Hotel address, Price, hotel image url, geo coordinates, rating, descriptions and suggest itinerary with placeName, Place Details, Place Image Url, Geo Coordinates, Place address, ticket Pricing, Time travel each of the location for {totalDays} days with each day plan with best time to visit in JSON format.';
