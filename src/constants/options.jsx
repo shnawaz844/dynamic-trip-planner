@@ -146,7 +146,14 @@ IMPORTANT FORMATTING RULES:
 5. Ensure all brackets and braces are properly closed
 6. All prices should be in ${ currency } currency
 
-IMPORTANT: Start your JSON with the "tripDetails" object containing the exact values shown above. Then provide ${ daysStr === '1' ? '1 full day' : `${ daysStr } complete days` } of detailed itinerary with best times to visit, considering the ${ budgetStr } budget and ${ travelerStr } group size.`;
+IMPORTANT TRIP PACING & REST RULES:
+- Since travel can be exhausting, you MUST explicitly suggest rest and downtime in the itinerary.
+- MANDATORY CONSTRAINT: Every single day of the itinerary (Day 1, Day 2, etc., up to the final day) MUST include at least one dedicated slot for rest, relaxation, or downtime. Do not generate any day containing only sightseeing/activities without a rest slot.
+- After travel on Day 1, or after a full day of traveling/sightseeing (such as in the afternoon/evening of Day 1 or at the end of the day), schedule a dedicated rest slot (e.g., "Rest & Recharge at Hotel", "Relax & Unwind", or "Leisure evening at hotel/beach").
+- Balance activities with downtime: Do not pack the schedule with back-to-back intense sightseeing. Ensure each day includes appropriate rest/relaxation breaks (e.g., afternoon breaks during peak heat, relaxed dinners, or leisure time).
+- For rest/downtime activities, set 'placeName' to something descriptive containing the word 'Rest' or 'Relax' (e.g., 'Rest & Recharge at Hotel', 'Relax at Al Khan Beach', 'Unwind at Hotel Lounge') and describe in 'placeDetails' how the traveler can unwind and recharge.
+
+IMPORTANT: Start your JSON with the "tripDetails" object containing the exact values shown above. Then provide ${ daysStr === '1' ? '1 full day' : `${ daysStr } complete days` } of detailed itinerary with best times to visit, considering the ${ budgetStr } budget and ${ travelerStr } group size, strictly incorporating the mandatory daily rest and pacing rules defined above.`;
 };
 
 // Legacy support - simple template (deprecated, use buildAIPrompt instead)

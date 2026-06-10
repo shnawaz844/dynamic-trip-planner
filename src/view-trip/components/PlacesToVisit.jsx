@@ -18,6 +18,7 @@ function PlacesToVisit({ trip, setShowMap, setSelectedLocation }) {
                                         place={place}
                                         setShowMap={setShowMap}
                                         setSelectedLocation={setSelectedLocation}
+                                        trip={trip}
                                     />
                                 </div>
                             ))}
